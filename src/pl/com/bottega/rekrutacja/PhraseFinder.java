@@ -7,7 +7,7 @@ import java.util.*;
  */
 //Rozwiązanie wzorcowe Maćka wszystko w jednej klasie
 
-public class RhraseFinder {
+public class PhraseFinder {
 
     public static void main(String[] args) {
         System.out.println(findPhrase("Ala ma la la kota la la la", "la"));
