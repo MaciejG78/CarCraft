@@ -28,11 +28,11 @@ public class ReadAndWriteFiles {
                 String[] splitted = textLine.toLowerCase().split("\\s{1,}");
 
                 for (String st : splitted) {
-                    Integer readerKey = words.get(st);
-                    if (readerKey == null) {
+                    Integer valueForKey = words.get(st);
+                    if (valueForKey == null) {
                         words.put(st, 1);
                     } else {
-                        words.put(st, readerKey + 1);
+                        words.put(st, valueForKey + 1);
                     }
                 }
 
