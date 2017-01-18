@@ -1,0 +1,5 @@
+Wiersz 1 - Ala
+Wiersz 2 - Ola
+Wiersz 3 - Tola
+Wiersz 4 - Bartek
+Wiersz 5 - Wojtek
