@@ -1,6 +1,7 @@
 package pl.com.bottega.javastart.library.utils;
 
 import pl.com.bottega.javastart.library.data.Book;
+import pl.com.bottega.javastart.library.data.LibraryUser;
 import pl.com.bottega.javastart.library.data.Magazine;
 
 import java.util.InputMismatchException;
@@ -83,5 +84,16 @@ public class DataReader {
         }
 
         return new Magazine(title, publisher, language, year, month, day);
+    }
+
+    public LibraryUser readAndCreateLibraryUser() {
+        System.out.println("Imię: ");
+        String firstName = sc.nextLine();
+        System.out.println("Nazwisko: ");
+        String lastName = sc.nextLine();
+        System.out.println("PESEL: ");
+        String pesel = sc.nextLine();
+
+        return new LibraryUser(firstName, lastName, pesel);
     }
 }

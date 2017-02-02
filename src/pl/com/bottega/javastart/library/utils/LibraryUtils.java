@@ -1,11 +1,8 @@
 package pl.com.bottega.javastart.library.utils;
 
-import pl.com.bottega.javastart.library.data.Publication;
-import pl.com.bottega.javastart.library.data.Book;
-import pl.com.bottega.javastart.library.data.Library;
-import pl.com.bottega.javastart.library.data.Magazine;
+import pl.com.bottega.javastart.library.data.*;
 
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * Created by macie on 06.01.2017.
@@ -13,37 +10,26 @@ import java.util.Arrays;
 public class LibraryUtils {
 
     public static void printBooks(Library lib) {
-        Publication[] publications = lib.getPublications();
-        Arrays.sort(publications, new Library.AlphabeticalComparator());
-        int publicationsNumber = lib.getPublicationsNumber();
-        int countBooks = 0;
-        for(int i=0; i<publicationsNumber; i++) {
-            if(publications[i] instanceof Book) {
-                System.out.println(publications[i]);
-                countBooks++;
-            }
-        }
-
-        if(countBooks == 0) {
-            System.out.println("Brak książek w bibliotece");
-        }
+        printPublications(lib, Book.class);
     }
 
     public static void printMagazines(Library lib) {
-        Publication[] publications = lib.getPublications();
-        Arrays.sort(publications, new Library.AlphabeticalComparator());
-        int publicationsNumber = lib.getPublicationsNumber();
-        int countMagazines = 0;
-        for(int i=0; i<publicationsNumber; i++) {
-            if(publications[i] instanceof Magazine) {
-                System.out.println(publications[i]);
-                countMagazines++;
-            }
-        }
+        printPublications(lib, Magazine.class);
+    }
 
-        if(countMagazines == 0) {
-            System.out.println("Brak magazynów w bibliotece");
+    private static void printPublications(Library lib, Class cl) {
+        long countMagazines = lib.getPublications().values().stream()
+                .filter(cl::isInstance).sorted(new Library.AlphabeticalComparator())
+                .peek(System.out::println).count();
+
+        if (countMagazines == 0) {
+            System.out.println("W bibliotece nie znaleziono publikacji typu " + cl.getSimpleName());
         }
     }
-}
 
+    public static void printUsers(Library lib) {
+        lib.getUsers().values().stream()
+                .sorted((a, b) -> a.getLastName().compareTo(b.getLastName()))
+                .forEach(System.out::println);
+    }
+}

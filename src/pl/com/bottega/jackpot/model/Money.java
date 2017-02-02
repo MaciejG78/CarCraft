@@ -89,4 +89,8 @@ public class Money {
     public String toString() {
         return value + " " + currency;
     }
+
+    public BigDecimal getValue() {
+        return value;
+    }
 }

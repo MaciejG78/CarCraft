@@ -106,7 +106,7 @@ public class Machine implements MaintenacePanel, GamerPanel {
        else {
             System.out.println("Moneta niedozwolona - ZWROT !!!");
             }
-        System.out.println("Kwota wpłacona to: " + moneyForTheGame + ", Możesz grać: " + numberOfTheGames + " razy.");
+        System.out.println("Kwota wpłacona to: " + moneyForTheGame + ", Możesz grać: " + numberOfTheGames.getValue() + " razy.");
 
     }
 

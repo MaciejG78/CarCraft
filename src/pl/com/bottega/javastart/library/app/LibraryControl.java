@@ -2,6 +2,7 @@ package pl.com.bottega.javastart.library.app;
  
 import pl.com.bottega.javastart.library.data.Book;
 import pl.com.bottega.javastart.library.data.Library;
+import pl.com.bottega.javastart.library.data.LibraryUser;
 import pl.com.bottega.javastart.library.data.Magazine;
 
 import pl.com.bottega.javastart.library.utils.DataReader;
@@ -26,7 +27,7 @@ public class LibraryControl {
         try {
             library = fileManager.readLibraryFromFile();
             System.out.println("Wczytano dane biblioteki z pliku ");
-        } catch (ClassNotFoundException | IOException e){
+        } catch (ClassNotFoundException | IOException e) {
             library = new Library();
             System.out.println("Utworzono nową bazę biblioteki.");
         }
@@ -35,38 +36,43 @@ public class LibraryControl {
     /*
      * Główna pętla programu, która pozwala na wybór opcji i interakcję
      */
-    public void controlLoop(Option option) {
-        printOptions();
-        try {
-            option = Option.createFromInt(dataReader.getInt());
-            switch (option) {
-                case ADD_BOOK:
-                    addBook();
-                    break;
-                case ADD_MAGAZINE:
-                    addMagazine();
-                    break;
-                case PRINT_BOOKS:
-                    printBooks();
-                    break;
-                case PRINT_MAGAZINES:
-                    printMagazines();
-                    break;
-                case EXIT:
-                    exit();
+    public void controlLoop() {
+        Option option = null;
+        while (option != Option.EXIT) {
+            try {
+                printOptions();
+                option = Option.createFromInt(dataReader.getInt());
+                switch (option) {
+                    case ADD_BOOK:
+                        addBook();
+                        break;
+                    case ADD_MAGAZINE:
+                        addMagazine();
+                        break;
+                    case PRINT_BOOKS:
+                        printBooks();
+                        break;
+                    case PRINT_MAGAZINES:
+                        printMagazines();
+                        break;
+                    //DODANE
+                    case ADD_USER:
+                        addUser();
+                        break;
+                    case PRINT_USERS:
+                        printUsers();
+                        break;
+                    case EXIT:
+                        exit();
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Wprowadzono niepoprawne dane, publikacji nie dodano");
+            } catch (NumberFormatException | NoSuchElementException e) {
+                System.out.println("Wybrana opcja nie istnieje, wybierz ponownie:");
             }
-        } catch (InputMismatchException e) {
-            System.out.println("Wprowadzono niepoprawne dane, publikacji nie dodano");
-        } catch (NumberFormatException | NoSuchElementException e) {
-            System.out.println("Wybrana opcja nie istnieje, wybierz ponownie:");
         }
-
-        if (option == Option.EXIT) {
-            // zamykamy strumień wejścia
-            dataReader.close();
-        } else {
-            controlLoop(option);
-        }
+        // zamykamy strumień wejścia
+        dataReader.close();
     }
 
     private void printOptions() {
@@ -94,7 +100,18 @@ public class LibraryControl {
         LibraryUtils.printMagazines(library);
     }
 
-    private void exit(){
+    //DODANE
+    private void addUser() {
+        LibraryUser user = dataReader.readAndCreateLibraryUser();
+        library.addUser(user);
+    }
+
+    //DODANE
+    private void printUsers() {
+        LibraryUtils.printUsers(library);
+    }
+
+    private void exit() {
         fileManager.writeLibraryToFile(library);
     }
 
@@ -103,7 +120,10 @@ public class LibraryControl {
         ADD_BOOK(1, "Dodanie książki"),
         ADD_MAGAZINE(2,"Dodanie magazynu/gazety"),
         PRINT_BOOKS(3, "Wyświetlenie dostępnych książek"),
-        PRINT_MAGAZINES(4, "Wyświetlenie dostępnych magazynów/gazet");
+        PRINT_MAGAZINES(4, "Wyświetlenie dostępnych magazynów/gazet"),
+        //DODANE
+        ADD_USER(5, "Dodanie nowego użytkownika"),
+        PRINT_USERS(6, "Wyświetlenie listy użytkowników");
 
         private int value;
         private String description;
